@@ -75,7 +75,14 @@ namespace ReqIFSharp
         public override object ObjectValue
         {
             get => this.TheValue;
-            set => this.TheValue = value.ToString();
+            set
+            {
+                if (this.TheValue != value.ToString())
+                {
+                    this.TheValue = value.ToString();
+                    NotifyPropertyChanged();
+                }
+            }
         }
 
         /// <summary>

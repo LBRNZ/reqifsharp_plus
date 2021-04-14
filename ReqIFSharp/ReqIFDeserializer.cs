@@ -29,6 +29,7 @@ namespace ReqIFSharp
     using System.Reflection;
     using System.Resources;
     using System.Xml;
+    using System.Xml.Linq;
     using System.Xml.Schema;
     using System.Xml.Serialization;
 #else
@@ -182,6 +183,7 @@ namespace ReqIFSharp
                 using (var archive = new ZipArchive(reader, ZipArchiveMode.Read))
                 {
                     var reqIfEntries = archive.Entries.Where(x => x.Name.EndsWith(".reqif", StringComparison.CurrentCultureIgnoreCase)).ToArray();
+                    ZipArchiveEntry[] embeddedObjectEntries = archive.Entries.Where(x => !x.Name.EndsWith(".reqif", StringComparison.CurrentCultureIgnoreCase)).ToArray();
                     if (reqIfEntries.Length == 0)
                     {
                         throw new FileNotFoundException($"No reqif file could be found in the archive.");
@@ -190,13 +192,26 @@ namespace ReqIFSharp
                     var reqifs = new List<ReqIF>();
                     foreach (var zipArchiveEntry in reqIfEntries)
                     {
+                        ReqIF reqif;
                         using (xmlReader = XmlReader.Create(zipArchiveEntry.Open()))
                         {
-                            var reqif = (ReqIF) xmlSerializer.Deserialize(xmlReader);
+                            reqif = (ReqIF) xmlSerializer.Deserialize(xmlReader);
+
                             reqifs.Add(reqif);
                         }
+                        //Load embedded objects
+                        foreach (ZipArchiveEntry entry in embeddedObjectEntries)
+                        {
+                            Stream file = entry.Open();
+                            MemoryStream fileStream = new MemoryStream();
+                            file.CopyTo(fileStream);
+                            reqif.EmbeddedObjects.Add(new EmbeddedObject()
+                            {
+                                Name = entry.FullName,
+                                ObjectValue = fileStream
+                            });
+                        }
                     }
-
                     return reqifs;
                 }
             }
@@ -209,6 +224,42 @@ namespace ReqIFSharp
                         var reqifs = new List<ReqIF>();
                         var reqif = (ReqIF)xmlSerializer.Deserialize(xmlReader);
                         reqifs.Add(reqif);
+
+                        foreach (SpecObject specObject in reqif.CoreContent.SpecObjects)
+                        {
+                            foreach (var attributeValue in specObject.Values)
+                            {
+                                if (attributeValue.GetType() == typeof(AttributeValueXHTML))
+                                {
+                                    XDocument parsedXHTML = XDocument.Parse(attributeValue.ObjectValue.ToString());
+                                    List<XElement> xhtmlObjects = parsedXHTML.Descendants().Where(x => x.Name.LocalName == "object").ToList();
+                                    if (xhtmlObjects.Count() >= 1)
+                                    {
+                                        foreach (XElement xhtmlObject in xhtmlObjects)
+                                        {
+                                            string fileName = xhtmlObject.Attribute("data").Value;
+                                            MemoryStream memoryStream = new MemoryStream();
+                                            try
+                                            {
+                                                using (FileStream fileStream = new FileStream(System.IO.Path.GetDirectoryName(xmlFilePath) + "\\" + fileName, FileMode.Open, FileAccess.Read))
+                                                {
+                                                    fileStream.CopyTo(memoryStream);
+                                                    reqif.EmbeddedObjects.Add(new EmbeddedObject()
+                                                    {
+                                                        Name = fileName,
+                                                        ObjectValue = memoryStream
+                                                    });
+                                                }
+                                            }
+                                            catch (DirectoryNotFoundException dnfe)
+                                            {
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                         return reqifs;
                     }
                 }

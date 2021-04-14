@@ -50,6 +50,23 @@ namespace ReqIFSharp
         public List<ReqIFToolExtension> ToolExtension { get; set; } = new List<ReqIFToolExtension>();
 
         /// <summary>
+        /// Backing field for the <see cref="EmbeddedObjects"/> property.
+        /// </summary>
+        private readonly List<EmbeddedObject> embeddedObjects = new List<EmbeddedObject>();
+
+        /// <summary>
+        /// Gets the optional preview images referenced in XHTML Attribute Values.
+        /// </summary>
+        [XmlIgnore]
+        public List<EmbeddedObject> EmbeddedObjects
+        {
+            get
+            {
+                return this.embeddedObjects;
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the default language encoding of the Exchange XML Document content
         /// </summary>
         /// <remarks>

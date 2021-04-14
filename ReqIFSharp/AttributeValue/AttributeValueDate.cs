@@ -82,7 +82,11 @@ namespace ReqIFSharp
                     throw new InvalidOperationException($"Cannot use {value} as value for this AttributeValueDate.");
                 }
 
-                this.TheValue = datetime;
+                if (this.TheValue != datetime)
+                {
+                    this.TheValue = datetime;
+                    NotifyPropertyChanged();
+                }
             }
         }
 

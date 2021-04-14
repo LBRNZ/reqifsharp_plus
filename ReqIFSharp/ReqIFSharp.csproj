@@ -3,23 +3,23 @@
  
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netstandard1.6;net45</TargetFrameworks>
-    <Version>3.0.0</Version>
-    <Description>ReqIF library that contains ReqIF classes and a specific serializer.</Description>
-    <PackageId>ReqIFSharp</PackageId>
-    <Company>RHEA System S.A.</Company>
-    <Copyright>Copyright 2017-2021 RHEA System S.A.</Copyright>
-    <PackageProjectUrl>https://reqifsharp.org</PackageProjectUrl>
-    <PackageLicenseUrl>http://www.apache.org/licenses/LICENSE-2.0</PackageLicenseUrl>
-    <RepositoryUrl>https://github.com/RHEAGROUP/reqifsharp.git</RepositoryUrl>
+    <Version>3.1.0</Version>
+    <Description>Fork of ReqIFSharp that additionally loads embedded Objects</Description>
+    <PackageId>ReqIFSharp_Plus</PackageId>
+    <Company></Company>
+    <Copyright></Copyright>
+    <PackageProjectUrl>https://github.com/LBRNZ/reqifsharp_plus</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/LBRNZ/reqifsharp_plus.git</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
-    <PackageIconUrl>https://reqifsharp.org/assets/images/reqifsharp-logo.png</PackageIconUrl>
     <PackageTags>ReqIF</PackageTags>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-    <Authors>Sam Gerene, Naron Phou</Authors>
+    <Authors>Marc Lieberenz</Authors>
     <RequireLicenseAcceptance>false</RequireLicenseAcceptance>
-    <PackageReleaseNotes>
-      [Fix] Serialization of TOOL-EXTENSIONS; fixes #16
-    </PackageReleaseNotes>
+    <PackageReleaseNotes>* load embedded objects
+* NotifyPropertyChanged added to AttributeValue.Value</PackageReleaseNotes>
+    <Product>ReqIFSharp_Plus</Product>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageIcon>reqifsharp-logo.png</PackageIcon>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
@@ -69,6 +69,10 @@
     <None Remove="Resources\xhtml-table-1.xsd" />
     <None Remove="Resources\xhtml-text-1.xsd" />
     <None Remove="Resources\xml.xsd" />
+    <None Include="Resources\reqifsharp-logo.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
   
   <ItemGroup>
