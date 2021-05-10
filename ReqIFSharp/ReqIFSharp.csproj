@@ -3,7 +3,7 @@
  
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netstandard1.6;net45</TargetFrameworks>
-    <Version>3.1.0</Version>
+    <Version>3.1.1</Version>
     <Description>Fork of ReqIFSharp that additionally loads embedded Objects</Description>
     <PackageId>ReqIFSharp_Plus</PackageId>
     <Company></Company>
@@ -15,8 +15,7 @@
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <Authors>Marc Lieberenz</Authors>
     <RequireLicenseAcceptance>false</RequireLicenseAcceptance>
-    <PackageReleaseNotes>* load embedded objects
-* NotifyPropertyChanged added to AttributeValue.Value</PackageReleaseNotes>
+    <PackageReleaseNotes>* Fixed encoding when serializing as string</PackageReleaseNotes>
     <Product>ReqIFSharp_Plus</Product>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageIcon>reqifsharp-logo.png</PackageIcon>

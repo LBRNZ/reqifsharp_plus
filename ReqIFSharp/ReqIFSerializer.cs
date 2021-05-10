@@ -177,7 +177,7 @@ namespace ReqIFSharp
 
             using (StringWriter textWriter = new StringWriter())
             {
-                using (var writer = XmlWriter.Create(textWriter, new XmlWriterSettings { Indent = true }))
+                using (var writer = XmlWriter.Create(textWriter, new XmlWriterSettings { Indent = true , Encoding = Encoding.UTF8 }))
                 {
                     this.xmlSerializer.Serialize(writer, reqIf);
                 }
@@ -242,7 +242,7 @@ namespace ReqIFSharp
 
             using (StringWriter textWriter = new StringWriter())
             {
-                using (var writer = XmlWriter.Create(textWriter, new XmlWriterSettings { Indent = true }))
+                using (var writer = XmlWriter.Create(textWriter, new XmlWriterSettings { Indent = true, Encoding = Encoding.UTF8 }))
                 {
                     this.xmlSerializer.Serialize(writer, reqIf);
                 }
