@@ -3,7 +3,7 @@
  
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netstandard1.6;net45</TargetFrameworks>
-    <Version>3.1.1</Version>
+    <Version>3.1.2</Version>
     <Description>Fork of ReqIFSharp that additionally loads embedded Objects</Description>
     <PackageId>ReqIFSharp_Plus</PackageId>
     <Company></Company>

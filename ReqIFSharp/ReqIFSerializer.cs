@@ -53,6 +53,23 @@ namespace ReqIFSharp
         /// </summary>
         private readonly XmlReaderSettings xmlReaderSettings = new XmlReaderSettings();
 
+        public class StringWriterWithEncoding : StringWriter
+        {
+            public StringWriterWithEncoding(StringBuilder sb, Encoding encoding)
+                : base(sb)
+            {
+                this.m_Encoding = encoding;
+            }
+            private readonly Encoding m_Encoding;
+            public override Encoding Encoding
+            {
+                get
+                {
+                    return this.m_Encoding;
+                }
+            }
+        }
+
 #if NETFRAMEWORK || NETSTANDARD2_0
         /// <summary>
         /// The <see cref="ReqIF"/> <see cref="XmlSchemaSet"/>
@@ -175,7 +192,8 @@ namespace ReqIFSharp
             }
 
 
-            using (StringWriter textWriter = new StringWriter())
+            StringBuilder sb = new StringBuilder();
+            using (StringWriterWithEncoding textWriter = new StringWriterWithEncoding(sb, Encoding.UTF8))
             {
                 using (var writer = XmlWriter.Create(textWriter, new XmlWriterSettings { Indent = true , Encoding = Encoding.UTF8 }))
                 {
@@ -240,7 +258,8 @@ namespace ReqIFSharp
             }
 
 
-            using (StringWriter textWriter = new StringWriter())
+            StringBuilder sb = new StringBuilder();
+            using (StringWriterWithEncoding textWriter = new StringWriterWithEncoding(sb, Encoding.UTF8))
             {
                 using (var writer = XmlWriter.Create(textWriter, new XmlWriterSettings { Indent = true, Encoding = Encoding.UTF8 }))
                 {
