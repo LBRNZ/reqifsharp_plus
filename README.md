@@ -6,6 +6,10 @@ A C# library for reading and writing ReqIF documents. Read more about it here: h
 
 This is a fork for the ReqIF Sharp Library by RHEA Group. This fork includes a method to load embedded objects that are included in .reqifz file and referred to in XHTML data objects
 Changelog
+
+[3.1.3]
+
+    Updated to ReqIFSharp 3.0.1
 [3.0.1]
 
     Updated to ReqIFSharp 3.0.0
